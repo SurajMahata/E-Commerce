@@ -1,0 +1,30 @@
+import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+
+export default function ProductCard({ product }) {
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
+
+  return (
+    <article className="product-card">
+      <Link to={`/products/${product.id}`} className="product-image-wrap">
+        <img src={product.imageUrl} alt={product.name} />
+      </Link>
+      <div className="product-info">
+        <Link to={`/products/${product.id}`} className="product-title">{product.name}</Link>
+        <p>{product.description}</p>
+        <div className="rating">{"★".repeat(Math.round(product.rating || 4))}<span>{product.rating}</span></div>
+        <div className="price-row">
+          <strong>₹{Number(product.price).toLocaleString("en-IN")}</strong>
+          {product.mrp && <del>₹{Number(product.mrp).toLocaleString("en-IN")}</del>}
+          {discount > 0 && <span className="deal">{discount}% off</span>}
+        </div>
+        <button onClick={() => user ? addToCart(product.id, 1) : null} className="gold-button">
+          {user ? "Add to Cart" : "Login to Add"}
+        </button>
+      </div>
+    </article>
+  );
+}
