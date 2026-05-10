@@ -94,3 +94,5 @@ The frontend runs at `http://localhost:5173`.
 - Checkout
 - Orders
 - Admin Product Management
+
+Admin accounts do not see cart or checkout. Cart and order APIs are customer-only, while product create/update/delete APIs are admin-only.

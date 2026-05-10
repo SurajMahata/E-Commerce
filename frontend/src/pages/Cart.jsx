@@ -18,9 +18,9 @@ export default function Cart() {
               <p className="muted">{item.product.brand} | {item.product.category}</p>
               <strong>₹{Number(item.product.price).toLocaleString("en-IN")}</strong>
               <div className="cart-controls">
-                <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                <button disabled={item.quantity <= 1} onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                 <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                <button disabled={item.quantity >= item.product.stock} onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                 <button onClick={() => removeItem(item.id)}>Remove</button>
               </div>
             </div>

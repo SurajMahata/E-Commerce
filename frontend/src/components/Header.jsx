@@ -44,14 +44,18 @@ export default function Header() {
               <strong>Account</strong>
             </Link>
           )}
-          <Link className="account-button" to="/orders">
-            <small>Returns</small>
-            <strong>Orders</strong>
-          </Link>
-          <Link className="cart-link" to="/cart">
-            <span>{cart.count || 0}</span>
-            Cart
-          </Link>
+          {!isAdmin && (
+            <Link className="account-button" to="/orders">
+              <small>Returns</small>
+              <strong>Orders</strong>
+            </Link>
+          )}
+          {!isAdmin && (
+            <Link className="cart-link" to="/cart">
+              <span>{cart.count || 0}</span>
+              Cart
+            </Link>
+          )}
         </div>
       </div>
       <nav className="category-bar">

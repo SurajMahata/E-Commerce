@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const { addToCart } = useCart();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
 
   return (
@@ -21,9 +22,11 @@ export default function ProductCard({ product }) {
           {product.mrp && <del>₹{Number(product.mrp).toLocaleString("en-IN")}</del>}
           {discount > 0 && <span className="deal">{discount}% off</span>}
         </div>
-        <button onClick={() => user ? addToCart(product.id, 1) : null} className="gold-button">
-          {user ? "Add to Cart" : "Login to Add"}
-        </button>
+        {!isAdmin && (
+          <button onClick={() => user ? addToCart(product.id, 1) : navigate("/login")} className="gold-button">
+            {user ? "Add to Cart" : "Login to Add"}
+          </button>
+        )}
       </div>
     </article>
   );

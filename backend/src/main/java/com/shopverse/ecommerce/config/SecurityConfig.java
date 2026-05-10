@@ -3,7 +3,6 @@ package com.shopverse.ecommerce.config;
 import com.shopverse.ecommerce.security.JwtAuthenticationFilter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +47,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                        .requestMatchers("/api/cart", "/api/cart/**").hasRole("USER")
+                        .requestMatchers("/api/orders", "/api/orders/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")

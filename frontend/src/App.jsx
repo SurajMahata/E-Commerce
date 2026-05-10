@@ -22,6 +22,14 @@ function AdminRoute({ children }) {
   return isAdmin ? children : <Navigate to="/" replace />;
 }
 
+function CustomerRoute({ children }) {
+  const { user, isAdmin } = useAuth();
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return isAdmin ? <Navigate to="/admin/products" replace /> : children;
+}
+
 export default function App() {
   return (
     <div className="app-shell">
@@ -33,9 +41,9 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/cart" element={<CustomerRoute><Cart /></CustomerRoute>} />
+          <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
+          <Route path="/orders" element={<CustomerRoute><Orders /></CustomerRoute>} />
           <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
         </Routes>
       </main>
