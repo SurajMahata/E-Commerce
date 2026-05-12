@@ -3,7 +3,7 @@ import ProductCard from "../components/ProductCard.jsx";
 import { useEffect, useState } from "react";
 import { productApi } from "../services/api.js";
 
-const heroImage = "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?auto=format&fit=crop&w=1800&q=80";
+const heroImage = "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1800&q=80";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -14,18 +14,62 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      <section className="hero" style={{ backgroundImage: `linear-gradient(90deg, rgba(19,25,33,.92), rgba(19,25,33,.25)), url(${heroImage})` }}>
-        <div>
+      <section className="hero" style={{ backgroundImage: `linear-gradient(110deg, rgba(15, 23, 42, .36), rgba(255, 255, 255, .08)), url(${heroImage})` }}>
+        <div className="hero-copy">
+          <span className="eyebrow">Fresh arrivals every day</span>
           <h1>ShopVerse</h1>
-          <p>Fast deals, trusted products, secure checkout, and a complete full-stack ecommerce experience.</p>
-          <Link to="/products" className="hero-button">Shop today&apos;s picks</Link>
+          <p>Discover polished tech, home upgrades, audio favorites, and work essentials in one clean shopping experience.</p>
+          <div className="hero-actions">
+            <Link to="/products" className="hero-button">Shop today&apos;s picks</Link>
+            <Link to="/products?category=Electronics" className="hero-link">Explore electronics</Link>
+          </div>
+        </div>
+        <div className="hero-showcase" aria-label="ShopVerse highlights">
+          <div>
+            <strong>Secure checkout</strong>
+            <span>Protected payments and simple order flow</span>
+          </div>
+          <div>
+            <strong>Curated categories</strong>
+            <span>Fast paths to the products shoppers expect</span>
+          </div>
+          <div>
+            <strong>Popular picks</strong>
+            <span>Featured items refreshed from the catalog</span>
+          </div>
+        </div>
+      </section>
+      <section className="feature-strip" aria-label="Store benefits">
+        <div>
+          <strong>Fast discovery</strong>
+          <span>Browse by search or category</span>
+        </div>
+        <div>
+          <strong>Trusted catalog</strong>
+          <span>Clear pricing, ratings, and details</span>
+        </div>
+        <div>
+          <strong>Easy cart</strong>
+          <span>Add favorites without losing your place</span>
         </div>
       </section>
       <section className="promo-grid">
-        <Link to="/products?category=Electronics">Electronics deals</Link>
-        <Link to="/products?category=Home">Home upgrades</Link>
-        <Link to="/products?category=Audio">Audio favorites</Link>
-        <Link to="/products?category=Computers">Work essentials</Link>
+        <Link to="/products?category=Electronics">
+          <span>Electronics</span>
+          <strong>Smart devices and daily tech</strong>
+        </Link>
+        <Link to="/products?category=Home">
+          <span>Home</span>
+          <strong>Useful upgrades for every room</strong>
+        </Link>
+        <Link to="/products?category=Audio">
+          <span>Audio</span>
+          <strong>Speakers, headphones, and more</strong>
+        </Link>
+        <Link to="/products?category=Computers">
+          <span>Computers</span>
+          <strong>Work essentials built to perform</strong>
+        </Link>
       </section>
       <section className="content-section">
         <div className="section-heading">
