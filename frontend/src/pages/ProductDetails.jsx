@@ -26,7 +26,17 @@ export default function ProductDetails() {
       return;
     }
     await addToCart(product.id, quantity);
+    alert("Product added to cart");
     navigate("/checkout");
+  }
+
+  async function handleAddToCart() {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    await addToCart(product.id, quantity);
+    alert("Product successfully added to the cart");
   }
 
   if (!product) return <div className="notice">Loading product...</div>;
@@ -56,7 +66,7 @@ export default function ProductDetails() {
               Quantity
               <input type="number" min="1" max={product.stock} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
             </label>
-            <button className="gold-button" onClick={() => user ? addToCart(product.id, quantity) : navigate("/login")}>Add to Cart</button>
+            <button className="gold-button" onClick={handleAddToCart}>Add to Cart</button>
             <button className="orange-button" onClick={buyNow}>Buy Now</button>
           </div>
         )}

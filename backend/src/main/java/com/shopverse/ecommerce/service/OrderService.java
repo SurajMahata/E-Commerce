@@ -3,6 +3,7 @@ package com.shopverse.ecommerce.service;
 import com.shopverse.ecommerce.dto.CheckoutRequest;
 import com.shopverse.ecommerce.entity.Order;
 import com.shopverse.ecommerce.entity.OrderItem;
+import com.shopverse.ecommerce.entity.OrderStatus;
 import com.shopverse.ecommerce.entity.User;
 import com.shopverse.ecommerce.exception.ApiException;
 import com.shopverse.ecommerce.repository.CartItemRepository;
@@ -25,6 +26,20 @@ public class OrderService {
 
     public List<Order> findOrders(User user) {
         return orderRepository.findByUserOrderByCreatedAtDesc(user);
+    }
+
+    @Transactional
+    public Order cancelOrder(Long orderId, User user) {
+        Order order = orderRepository.findByIdAndUser(orderId, user)
+                .orElseThrow(() -> new ApiException("Order not found", HttpStatus.NOT_FOUND));
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new ApiException("Delivered orders cannot be cancelled", HttpStatus.BAD_REQUEST);
+        }
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            return order;
+        }
+        order.setStatus(OrderStatus.CANCELLED);
+        return orderRepository.save(order);
     }
 
     @Transactional

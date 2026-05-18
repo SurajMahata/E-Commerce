@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const emptyProduct = {
   name: "",
@@ -15,6 +15,10 @@ const emptyProduct = {
 export default function ProductForm({ initialProduct, onSubmit, submitLabel = "Save Product" }) {
   const [form, setForm] = useState(initialProduct || emptyProduct);
 
+  useEffect(() => {
+    setForm(initialProduct || emptyProduct);
+  }, [initialProduct]);
+
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
   }
@@ -28,7 +32,9 @@ export default function ProductForm({ initialProduct, onSubmit, submitLabel = "S
       rating: Number(form.rating),
       stock: Number(form.stock)
     });
-    setForm(emptyProduct);
+    if (!initialProduct) {
+      setForm(emptyProduct);
+    }
   }
 
   return (

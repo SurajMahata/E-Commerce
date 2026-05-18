@@ -1,15 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 export function getToken() {
-  return localStorage.getItem("shopverse_token");
+  return localStorage.getItem("jwtToken") || localStorage.getItem("shopverse_token");
 }
 
 export function setSession(session) {
+  if (!session?.token) {
+    throw new Error("JWT token was not returned by the server");
+  }
+  localStorage.setItem("jwtToken", session.token);
   localStorage.setItem("shopverse_token", session.token);
   localStorage.setItem("shopverse_user", JSON.stringify(session));
 }
 
 export function clearSession() {
+  localStorage.removeItem("jwtToken");
   localStorage.removeItem("shopverse_token");
   localStorage.removeItem("shopverse_user");
 }
@@ -71,5 +76,6 @@ export const cartApi = {
 
 export const orderApi = {
   all: () => api("/orders"),
-  checkout: (payload) => api("/orders/checkout", { method: "POST", body: JSON.stringify(payload) })
+  checkout: (payload) => api("/orders/checkout", { method: "POST", body: JSON.stringify(payload) }),
+  cancel: (id) => api(`/orders/${id}/cancel`, { method: "PATCH" })
 };

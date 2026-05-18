@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,10 @@ public class OrderController {
     @PostMapping("/checkout")
     public Order checkout(@Valid @RequestBody CheckoutRequest request, Authentication authentication) {
         return orderService.checkout(userService.currentUser(authentication), request);
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public Order cancel(@PathVariable Long id, Authentication authentication) {
+        return orderService.cancelOrder(id, userService.currentUser(authentication));
     }
 }

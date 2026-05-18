@@ -44,6 +44,7 @@ export default function App() {
           <Route path="/cart" element={<CustomerRoute><Cart /></CustomerRoute>} />
           <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
           <Route path="/orders" element={<CustomerRoute><Orders /></CustomerRoute>} />
+          <Route path="/order-history" element={<CustomerRoute><Orders historyOnly /></CustomerRoute>} />
           <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
         </Routes>
       </main>

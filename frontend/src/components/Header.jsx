@@ -46,8 +46,14 @@ export default function Header() {
           )}
           {!isAdmin && (
             <Link className="account-button" to="/orders">
-              <small>Returns</small>
-              <strong>Orders</strong>
+              <small>Track</small>
+              <strong>My Orders</strong>
+            </Link>
+          )}
+          {!isAdmin && (
+            <Link className="account-button" to="/order-history">
+              <small>Previous</small>
+              <strong>History</strong>
             </Link>
           )}
           {!isAdmin && (

@@ -8,6 +8,15 @@ export default function ProductCard({ product }) {
   const { user, isAdmin } = useAuth();
   const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
 
+  async function handleAddToCart() {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    await addToCart(product.id, 1);
+    alert("Product successfully added to the cart");
+  }
+
   return (
     <article className="product-card">
       <Link to={`/products/${product.id}`} className="product-image-wrap">
@@ -22,8 +31,9 @@ export default function ProductCard({ product }) {
           {product.mrp && <del>₹{Number(product.mrp).toLocaleString("en-IN")}</del>}
           {discount > 0 && <span className="deal">{discount}% off</span>}
         </div>
+        <Link to={`/products/${product.id}`} className="light-button">View Details</Link>
         {!isAdmin && (
-          <button onClick={() => user ? addToCart(product.id, 1) : navigate("/login")} className="gold-button">
+          <button onClick={handleAddToCart} className="gold-button">
             {user ? "Add to Cart" : "Login to Add"}
           </button>
         )}

@@ -17,6 +17,18 @@ public class ProductService {
     }
 
     public List<Product> findAll(String query, String category) {
+        if (query != null && !query.isBlank() && category != null && !category.isBlank()) {
+            String normalizedQuery = query.toLowerCase();
+            String normalizedCategory = category.toLowerCase();
+            return productRepository.findAll().stream()
+                    .filter(product -> product.getCategory() != null && product.getCategory().toLowerCase().equals(normalizedCategory))
+                    .filter(product ->
+                            product.getName().toLowerCase().contains(normalizedQuery)
+                                    || (product.getBrand() != null && product.getBrand().toLowerCase().contains(normalizedQuery))
+                                    || (product.getDescription() != null && product.getDescription().toLowerCase().contains(normalizedQuery))
+                    )
+                    .toList();
+        }
         if (query != null && !query.isBlank()) {
             return productRepository.findByNameContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrBrandContainingIgnoreCase(
                     query,
