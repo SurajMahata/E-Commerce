@@ -45,7 +45,7 @@ main {
   background: #131921;
   color: #fff;
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
   gap: 16px;
   align-items: center;
   padding: 8px 18px;
@@ -61,7 +61,6 @@ main {
   color: #f3a847;
 }
 
-.delivery small,
 .account-button small {
   display: block;
   color: #d6d6d6;
@@ -856,10 +855,6 @@ main {
 @media (max-width: 900px) {
   .topbar {
     grid-template-columns: 1fr;
-  }
-
-  .delivery {
-    display: none;
   }
 
   .search-box {

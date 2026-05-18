@@ -20,10 +20,6 @@ export default function Header() {
     <header className="site-header">
       <div className="topbar">
         <Link to="/" className="logo">Shop<span>Verse</span></Link>
-        <div className="delivery">
-          <small>Deliver to</small>
-          <strong>India</strong>
-        </div>
         <form className="search-box" onSubmit={submitSearch}>
           <select aria-label="Category">
             <option>All</option>
