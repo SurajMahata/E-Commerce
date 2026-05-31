@@ -25,7 +25,20 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
-  const value = useMemo(() => ({ user, isAdmin: user?.role === "ADMIN", register, login, logout }), [user]);
+  function updateStoredUser(profile) {
+    setUser((current) => {
+      const nextUser = { ...(current || {}), ...profile, token: current?.token };
+      if (nextUser.token) {
+        setSession(nextUser);
+      }
+      return nextUser;
+    });
+  }
+
+  const value = useMemo(
+    () => ({ user, isAdmin: user?.role === "ADMIN", register, login, logout, updateStoredUser }),
+    [user]
+  );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

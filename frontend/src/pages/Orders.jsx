@@ -9,24 +9,17 @@ export default function Orders({ historyOnly = false }) {
   const [error, setError] = useState("");
 
   async function loadOrders() {
-    setOrders(await orderApi.all());
+    setError("");
+    try {
+      setOrders(await orderApi.all());
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   useEffect(() => {
     loadOrders();
   }, []);
-
-  async function cancelOrder(id) {
-    setError("");
-    try {
-      await orderApi.cancel(id);
-      alert("Order cancelled successfully");
-      await loadOrders();
-    } catch (err) {
-      setError(err.message);
-      alert(err.message);
-    }
-  }
 
   const visibleOrders = historyOnly
     ? orders.filter((order) => !activeStatuses.includes(order.status))
@@ -71,9 +64,6 @@ export default function Orders({ historyOnly = false }) {
                 </div>
               ))}
             </div>
-            {activeStatuses.includes(order.status) && (
-              <button className="light-button danger" onClick={() => cancelOrder(order.id)}>Cancel Order</button>
-            )}
           </article>
         ))}
       </div>

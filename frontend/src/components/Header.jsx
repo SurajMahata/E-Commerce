@@ -30,10 +30,22 @@ export default function Header() {
         </form>
         <div className="header-actions">
           {user ? (
-            <button className="account-button" onClick={logout}>
-              <small>Hello, {user.name?.split(" ")[0]}</small>
-              <strong>Logout</strong>
-            </button>
+            <div className="account-menu">
+              <Link className="account-button" to="/update-password">
+                <small>Hello, {user.name?.split(" ")[0]}</small>
+                <strong>Security</strong>
+              </Link>
+              {!isAdmin && (
+                <Link className="account-button" to="/profile">
+                  <small>Account</small>
+                  <strong>Profile</strong>
+                </Link>
+              )}
+              <button className="account-button logout-button" onClick={logout}>
+                <small>Account</small>
+                <strong>Logout</strong>
+              </button>
+            </div>
           ) : (
             <Link className="account-button" to="/login">
               <small>Hello, sign in</small>

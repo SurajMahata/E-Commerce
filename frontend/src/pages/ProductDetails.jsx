@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { productApi } from "../services/api.js";
+import { productApi, wishlistApi } from "../services/api.js";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -11,6 +11,7 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     productApi.one(id).then(setProduct);
@@ -39,6 +40,19 @@ export default function ProductDetails() {
     alert("Product successfully added to the cart");
   }
 
+  async function handleWishlist() {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    if (isAdmin) {
+      navigate("/admin/products");
+      return;
+    }
+    await wishlistApi.add(product.id);
+    setMessage("Product saved to your wishlist");
+  }
+
   if (!product) return <div className="notice">Loading product...</div>;
 
   return (
@@ -53,6 +67,7 @@ export default function ProductDetails() {
         <p className="description">{product.description}</p>
         <div className="details-price">₹{Number(product.price).toLocaleString("en-IN")}</div>
         {product.mrp && <p className="muted">MRP <del>₹{Number(product.mrp).toLocaleString("en-IN")}</del> inclusive of all taxes</p>}
+        {message && <div className="success">{message}</div>}
         {isAdmin ? (
           <div className="buy-panel">
             <strong>Admin view</strong>
@@ -67,6 +82,7 @@ export default function ProductDetails() {
               <input type="number" min="1" max={product.stock} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
             </label>
             <button className="gold-button" onClick={handleAddToCart}>Add to Cart</button>
+            <button className="light-button" onClick={handleWishlist}>Save to Wishlist</button>
             <button className="orange-button" onClick={buyNow}>Buy Now</button>
           </div>
         )}

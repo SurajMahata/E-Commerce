@@ -9,7 +9,9 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Orders from "./pages/Orders.jsx";
+import UpdatePassword from "./pages/UpdatePassword.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
+import Profile from "./pages/Profile.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
 
 function ProtectedRoute({ children }) {
@@ -45,6 +47,9 @@ export default function App() {
           <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
           <Route path="/orders" element={<CustomerRoute><Orders /></CustomerRoute>} />
           <Route path="/order-history" element={<CustomerRoute><Orders historyOnly /></CustomerRoute>} />
+          <Route path="/profile" element={<CustomerRoute><Profile /></CustomerRoute>} />
+          <Route path="/profile/:section" element={<CustomerRoute><Profile /></CustomerRoute>} />
+          <Route path="/update-password" element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
           <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
         </Routes>
       </main>

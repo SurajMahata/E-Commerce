@@ -35,6 +35,7 @@ public class Order {
 
     private BigDecimal totalAmount = BigDecimal.ZERO;
     private String shippingAddress;
+    private String paymentStatus = "PAID";
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PLACED;
@@ -79,6 +80,14 @@ public class Order {
 
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public OrderStatus getStatus() {

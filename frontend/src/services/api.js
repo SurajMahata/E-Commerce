@@ -1,4 +1,21 @@
+import axios from "axios";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
+const http = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+
+http.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export function getToken() {
   return localStorage.getItem("jwtToken") || localStorage.getItem("shopverse_token");
@@ -25,38 +42,30 @@ export function getStoredUser() {
 }
 
 export async function api(path, options = {}) {
-  const token = getToken();
-  const response = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers
-    }
-  });
-
-  if (!response.ok) {
-    let message = "Something went wrong";
-    try {
-      const data = await response.json();
-      message = data.message || Object.values(data).join(", ");
-    } catch {
-      message = await response.text();
-    }
+  try {
+    const response = await http({
+      url: path,
+      method: options.method || "GET",
+      data: options.body ? JSON.parse(options.body) : options.data,
+      headers: options.headers
+    });
+    return response.data || null;
+  } catch (error) {
+    const data = error.response?.data;
+    const message = data?.message || (data && Object.values(data).join(", ")) || error.message || "Something went wrong";
     throw new Error(message);
   }
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  const text = await response.text();
-  return text ? JSON.parse(text) : null;
 }
 
 export const authApi = {
   register: (payload) => api("/auth/register", { method: "POST", body: JSON.stringify(payload) }),
-  login: (payload) => api("/auth/login", { method: "POST", body: JSON.stringify(payload) })
+  login: (payload) => api("/auth/login", { method: "POST", body: JSON.stringify(payload) }),
+  updatePassword: (payload) => api("/users/password", { method: "PUT", body: JSON.stringify(payload) })
+};
+
+export const userApi = {
+  me: () => api("/users/me"),
+  updateProfile: (payload) => api("/users/me", { method: "PUT", body: JSON.stringify(payload) })
 };
 
 export const productApi = {
@@ -78,4 +87,18 @@ export const orderApi = {
   all: () => api("/orders"),
   checkout: (payload) => api("/orders/checkout", { method: "POST", body: JSON.stringify(payload) }),
   cancel: (id) => api(`/orders/${id}/cancel`, { method: "PATCH" })
+};
+
+export const addressApi = {
+  all: () => api("/addresses"),
+  create: (payload) => api("/addresses", { method: "POST", body: JSON.stringify(payload) }),
+  update: (id, payload) => api(`/addresses/${id}`, { method: "PUT", body: JSON.stringify(payload) }),
+  remove: (id) => api(`/addresses/${id}`, { method: "DELETE" }),
+  setDefault: (id) => api(`/addresses/${id}/default`, { method: "PATCH" })
+};
+
+export const wishlistApi = {
+  all: () => api("/wishlist"),
+  add: (productId) => api("/wishlist", { method: "POST", body: JSON.stringify({ productId }) }),
+  remove: (id) => api(`/wishlist/${id}`, { method: "DELETE" })
 };
