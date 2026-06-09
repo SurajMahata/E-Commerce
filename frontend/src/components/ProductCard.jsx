@@ -18,12 +18,12 @@ export default function ProductCard({ product }) {
   }
 
   return (
-    <article className="product-card">
+    <article className="product-card" data-testid="product-card">
       <Link to={`/products/${product.id}`} className="product-image-wrap">
         <img src={product.imageUrl} alt={product.name} />
       </Link>
       <div className="product-info">
-        <Link to={`/products/${product.id}`} className="product-title">{product.name}</Link>
+        <Link to={`/products/${product.id}`} className="product-title" data-testid="product-title">{product.name}</Link>
         <p>{product.description}</p>
         <div className="rating">{"★".repeat(Math.round(product.rating || 4))}<span>{product.rating}</span></div>
         <div className="price-row">
@@ -33,7 +33,7 @@ export default function ProductCard({ product }) {
         </div>
         <Link to={`/products/${product.id}`} className="light-button">View Details</Link>
         {!isAdmin && (
-          <button onClick={handleAddToCart} className="gold-button">
+          <button onClick={handleAddToCart} className="gold-button" data-testid="add-to-cart-button">
             {user ? "Add to Cart" : "Login to Add"}
           </button>
         )}

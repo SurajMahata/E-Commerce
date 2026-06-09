@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ShopVerse Selenium Regression" parallel="false">
+    <test name="UI automation test cases">
+        <classes>
+            <class name="com.shopverse.ecommerce.selenium.tests.NavigationTest"/>
+            <class name="com.shopverse.ecommerce.selenium.tests.RegistrationTest"/>
+            <class name="com.shopverse.ecommerce.selenium.tests.LoginTest"/>
+            <class name="com.shopverse.ecommerce.selenium.tests.LogoutSessionTest"/>
+            <class name="com.shopverse.ecommerce.selenium.tests.AdminProductTest"/>
+        </classes>
+    </test>
+</suite>

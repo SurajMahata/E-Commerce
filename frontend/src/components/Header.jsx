@@ -19,41 +19,41 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="topbar">
-        <Link to="/" className="logo">Shop<span>Verse</span></Link>
-        <form className="search-box" onSubmit={submitSearch}>
+        <Link to="/" className="logo" data-testid="site-logo">Shop<span>Verse</span></Link>
+        <form className="search-box" data-testid="header-search-form" onSubmit={submitSearch}>
           <select aria-label="Category">
             <option>All</option>
             {categories.map((category) => <option key={category}>{category}</option>)}
           </select>
-          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search ShopVerse" />
-          <button type="submit">Search</button>
+          <input data-testid="header-search-input" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search ShopVerse" />
+          <button data-testid="header-search-submit" type="submit">Search</button>
         </form>
         <div className="header-actions">
           {user ? (
             <div className="account-menu">
-              <Link className="account-button" to="/update-password">
+              <Link className="account-button" data-testid="security-link" to="/update-password">
                 <small>Hello, {user.name?.split(" ")[0]}</small>
                 <strong>Security</strong>
               </Link>
               {!isAdmin && (
-                <Link className="account-button" to="/profile">
+                <Link className="account-button" data-testid="profile-link" to="/profile">
                   <small>Account</small>
                   <strong>Profile</strong>
                 </Link>
               )}
-              <button className="account-button logout-button" onClick={logout}>
+              <button className="account-button logout-button" data-testid="logout-button" onClick={logout}>
                 <small>Account</small>
                 <strong>Logout</strong>
               </button>
             </div>
           ) : (
-            <Link className="account-button" to="/login">
+            <Link className="account-button" data-testid="signin-header-link" to="/login">
               <small>Hello, sign in</small>
               <strong>Account</strong>
             </Link>
           )}
           {!isAdmin && (
-            <Link className="account-button" to="/orders">
+            <Link className="account-button" data-testid="orders-link" to="/orders">
               <small>Track</small>
               <strong>My Orders</strong>
             </Link>
@@ -65,7 +65,7 @@ export default function Header() {
             </Link>
           )}
           {!isAdmin && (
-            <Link className="cart-link" to="/cart">
+            <Link className="cart-link" data-testid="cart-link" to="/cart">
               <span>{cart.count || 0}</span>
               Cart
             </Link>
@@ -77,7 +77,7 @@ export default function Header() {
         {categories.map((category) => (
           <NavLink key={category} to={`/products?category=${encodeURIComponent(category)}`}>{category}</NavLink>
         ))}
-        {isAdmin && <NavLink to="/admin/products">Admin Products</NavLink>}
+        {isAdmin && <NavLink data-testid="admin-products-link" to="/admin/products">Admin Products</NavLink>}
       </nav>
     </header>
   );

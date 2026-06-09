@@ -38,11 +38,11 @@ export default function AdminProducts() {
   }
 
   return (
-    <section className="admin-page">
+    <section className="admin-page" data-testid="admin-products-page">
       <div>
-        <h1>Product Management</h1>
+        <h1 data-testid="admin-products-title">Product Management</h1>
         <p className="muted">Create product listing pages and display products dynamically.</p>
-        {message && <div className="success">{message}</div>}
+        {message && <div className="success" role="status" data-testid="admin-message">{message}</div>}
         <ProductForm
           key={editingProduct?.id || "create"}
           initialProduct={editingProduct}
@@ -53,18 +53,18 @@ export default function AdminProducts() {
           <button className="light-button" type="button" onClick={() => setEditingProduct(null)}>Cancel Edit</button>
         )}
       </div>
-      <div className="admin-list">
+      <div className="admin-list" data-testid="admin-product-list">
         <h2>Current Products</h2>
         {products.map((product) => (
-          <article key={product.id} className="admin-row">
+          <article key={product.id} className="admin-row" data-testid="admin-product-row">
             <img src={product.imageUrl} alt={product.name} />
             <div>
               <strong>{product.name}</strong>
               <p>₹{Number(product.price).toLocaleString("en-IN")} | Stock {product.stock}</p>
             </div>
             <div className="row-actions">
-              <button onClick={() => setEditingProduct(product)}>Edit</button>
-              <button onClick={() => deleteProduct(product.id)}>Delete</button>
+              <button data-testid="edit-product-button" onClick={() => setEditingProduct(product)}>Edit</button>
+              <button data-testid="delete-product-button" onClick={() => deleteProduct(product.id)}>Delete</button>
             </div>
           </article>
         ))}

@@ -70,6 +70,35 @@ npm run dev
 
 The frontend runs at `http://localhost:5173`.
 
+## Selenium Automation Testing
+
+The backend Maven project includes Java Selenium + TestNG UI automation tests in:
+
+```text
+backend/src/test/java/com/shopverse/ecommerce/selenium
+```
+
+Start MySQL, the Spring Boot backend, and the Vite frontend first. Then run:
+
+```bash
+cd backend
+mvn test -DbaseUrl=http://localhost:5173
+```
+
+Run with a visible Chrome browser:
+
+```bash
+mvn test -DbaseUrl=http://localhost:5173 -Dselenium.headless=false
+```
+
+Covered checklist from the shared screenshots:
+
+- Maven Selenium/TestNG setup and Chrome WebDriver configuration
+- Page Object Model structure with reusable login utilities
+- Stable locators, navigation, waits, alerts/popups, and assertions
+- User registration, input validation, valid/invalid login, logout, and session handling
+- Separate valid login coverage for both normal users and the seeded admin account
+
 ## Main API Routes
 
 - `POST /api/auth/register`

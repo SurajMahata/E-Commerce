@@ -13,11 +13,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="home-page">
+    <div className="home-page" data-testid="home-page">
       <section className="hero" style={{ backgroundImage: `linear-gradient(110deg, rgba(15, 23, 42, .36), rgba(255, 255, 255, .08)), url(${heroImage})` }}>
         <div className="hero-copy">
           <span className="eyebrow">Fresh arrivals every day</span>
-          <h1>ShopVerse</h1>
+          <h1 data-testid="home-title">ShopVerse</h1>
           <p>Discover polished tech, home upgrades, audio favorites, and work essentials in one clean shopping experience.</p>
           <div className="hero-actions">
             <Link to="/products" className="hero-button">Shop today&apos;s picks</Link>

@@ -47,15 +47,16 @@ export default function Products() {
   }
 
   return (
-    <section className="content-section">
+    <section className="content-section" data-testid="products-page">
       <div className="section-heading">
-        <h1>{title}</h1>
-        <span>{products.length} items</span>
+        <h1 data-testid="products-title">{title}</h1>
+        <span data-testid="products-count">{products.length} items</span>
       </div>
-      <form className="filter-panel" onSubmit={applyFilters}>
+      <form className="filter-panel" data-testid="product-filter-form" onSubmit={applyFilters}>
         <label>
           Search products
           <input
+            data-testid="product-search-input"
             value={filters.q}
             onChange={(event) => setFilters((current) => ({ ...current, q: event.target.value }))}
             placeholder="Search by name, category, or brand"
@@ -63,7 +64,7 @@ export default function Products() {
         </label>
         <label>
           Category
-          <select value={filters.category} onChange={(event) => setFilters((current) => ({ ...current, category: event.target.value }))}>
+          <select data-testid="category-filter" value={filters.category} onChange={(event) => setFilters((current) => ({ ...current, category: event.target.value }))}>
             <option value="">All categories</option>
             <option value="Electronics">Electronics</option>
             <option value="Audio">Audio</option>
@@ -73,12 +74,12 @@ export default function Products() {
             <option value="Cameras">Cameras</option>
           </select>
         </label>
-        <button className="gold-button" type="submit">Apply</button>
-        <button className="light-button" type="button" onClick={clearFilters}>Clear</button>
+        <button className="gold-button" data-testid="apply-filters" type="submit">Apply</button>
+        <button className="light-button" data-testid="clear-filters" type="button" onClick={clearFilters}>Clear</button>
       </form>
-      {loading ? <div className="notice">Loading products...</div> : (
-        products.length === 0 ? <div className="notice">No products found for your search.</div> : (
-          <div className="product-grid">
+      {loading ? <div className="notice" data-testid="products-loading">Loading products...</div> : (
+        products.length === 0 ? <div className="notice" data-testid="no-products-message">No products found for your search.</div> : (
+          <div className="product-grid" data-testid="product-grid">
             {products.map((product) => <ProductCard key={product.id} product={product} />)}
           </div>
         )
